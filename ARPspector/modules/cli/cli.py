@@ -1,6 +1,8 @@
 import sys
 import argparse
 import requests
+from random import choice
+from art import text2art
 from colorama import Fore,Style 
 
 red=Fore.RED
@@ -10,13 +12,27 @@ magenta=Fore.MAGENTA
 bright=Style.BRIGHT
 green=Fore.GREEN
 red=Fore.RED
+yellow=Fore.YELLOW
+cyan=Fore.CYAN
+mixed=Fore.YELLOW + Fore.CYAN
 bold=Style.BRIGHT
 reset=Style.RESET_ALL
 
 class commandline():
+    # Class for commandline features.
+    def baner():
+        # Function to create and return the banner of the tool.
+        name="  ARPspector"
+        all_fonts=["graffiti","slant","speed","ogre","Poison","Star Wars","Ghost","Lean","Doom","Varsity","Alligator","Rectangles"]
+        all_colour=[red,blue,yellow,cyan,mixed,magenta]
+        selected_colour=choice(all_colour)
+        selected_font=choice(all_fonts)
+        Ascii_text=text2art(f"{name}",font=selected_font)
+        return f"\n{bright}{selected_colour}{Ascii_text}{reset}"
+
     
     def argment_parser():
-    #function to get arguments.
+        #function to get arguments.
         parser=argparse.ArgumentParser(add_help=False,usage=argparse.SUPPRESS,exit_on_error=False)
         try:
             parser.add_argument("-i","--interface",type=str)

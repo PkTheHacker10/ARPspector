@@ -36,7 +36,8 @@ class commandline():
         parser=argparse.ArgumentParser(add_help=False,usage=argparse.SUPPRESS,exit_on_error=False)
         try:
             parser.add_argument("-i","--interface",type=str)
-            parser.add_argument("-l","--log",type=str,default="/tmp/arpspector.log")
+            parser.add_argument("-l","--log-file",type=str,default="../../log/arpspector.log")
+            parser.add_argument("-h","--help",action="store_true")
             args=parser.parse_args()
             return args
         
@@ -49,9 +50,9 @@ class commandline():
         except Exception as e:
             print(f"{bright}{red}\n [+] {reset}{blue}Unexpected Argument Error:{e}")
             
-def help():
+    def help():
     # Funtion to create and return the available options and flags.
-    return f"""\n
+        return f"""\n
 {bold}{white}[{reset}{bold}{blue}DESCRIPTION{reset}{white}]{reset}: {white}{bold}ARPspector{reset} {white}is a tool by {reset}{bold}{green}PkTheHacker10{reset}.Which is used to detect ARP spoofing in the network.\n
     {bold}{white}[{reset}{bold}{blue}Usage{reset}{white}]{reset}:{sys.argv[0]} -i <interface> [-l logfile]\n
             {white}phonyARP {bold}{white}[{reset}{bold}{blue}flags{reset}{bold}{white}]\n
@@ -59,10 +60,11 @@ def help():
                 
             [{reset}{bold}{blue}input{reset}{bold}{white}]{reset}
             
-                -i,   --interface               :  Interface is used to moniter the network [mandatory]  
+                -i,   --interface               :  Interface is used to moniter the network [ mandatory ]  
                     
             {bold}{white}[{reset}{bold}{blue}debug{reset}{bold}{white}]{reset}
-                -l,   --log                     :  To save the network log in a file [default : /tmp/arpspector.log] 
+            
+                -l,   --log                     :  To save the network log in a file [ default : /log/arpspector.log] 
                 -v,   --version                 :  To check version of this tool. 
                 -h,   --help                    :  To see all the available options.
           """

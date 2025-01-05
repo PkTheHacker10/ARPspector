@@ -10,29 +10,21 @@ white=Fore.WHITE
 reset=Style.RESET_ALL
 
 arp_packet=[]
-
+lock=Lock()
 class ArpInspector():
-    
-    def sniffer(self):
-        while True:
-            try:
-                Lock.acquire()
-                arp_packet.append(sniff(filter="arp")[0])
-                
-            except Exception as LockError:
-                print(f" {bright}{red}[ + ] Sniffing Error :{reset} {LockError}")
-                
-            finally:
-                Lock.release()
-            
     
     def logger(self):
         pass
     
+    def packet_analyzer(self,packet):
+        if ARP in packet:
+            if packet[ARP].op == 2: 
+                print(f" [Reply] : i {packet[ARP].psrc} has {packet[ARP].hwsrc} asking to {packet[ARP].pdst} to store my MAC")
+            
     def inspector_handler(self):
         try:
-            sniffer_thread=Thread(target=self.sniffer(),args=())
-            sniffer_thread.start()
+            packet=sniff(filter="arp",prn=self.packet_analyzer,store=False)
+            
             
         except ThreadError as ThreadingError:
             print(f" {bright}{red}[ + ] Thread Error :{reset} {ThreadingError}")
@@ -41,5 +33,5 @@ class ArpInspector():
             
 if __name__=="__main__":
     ai=ArpInspector()
-    ai.sniffer()
+    ai.inspector_handler()
     

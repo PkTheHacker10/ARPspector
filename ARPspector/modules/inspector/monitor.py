@@ -9,25 +9,42 @@ bright=Style.BRIGHT
 white=Fore.WHITE
 reset=Style.RESET_ALL
 
-arp_packet=[]
+arp_packet=dict()
 lock=Lock()
 class ArpInspector():
     
     def logger(self):
         pass
     
-    def packet_analyzer(self,packet):
-        if ARP in packet:
-            if packet[ARP].op == 2: 
-                print(f" [Reply] : i {packet[ARP].psrc} has {packet[ARP].hwsrc} asking to {packet[ARP].pdst} to store my MAC")
+    def sniffer(self):
+        try:
+            print("inside sniffer")
+            while True:
+                packet=sniff(filter="arp",count=1)
+                if ARP in packet[0]:
+                    if packet[ARP].show().op == 2:
+                        arp_packet["arp_replay"]={
+                            "src_ip":packet[ARP].psrc,
+                            "src_mac":packet[ARP].hwdst,
+                            "dst_ip":packet[ARP].pdst,
+                            "dst_mac":packet[ARP].hwdst
+                        }
+                    
+        except Exception as SnifferError:
+            print(f"{bright}{red}[ + ] Error on sniffer: {SnifferError}")
             
     def inspector_handler(self):
         try:
-            packet=sniff(filter="arp",prn=self.packet_analyzer,store=False)
+            sniffer_thread=Thread(target=self.sniffer,args=())
+            sniffer_thread.start()
             
+            for i in range(1,10):
+                print(arp_packet)
+                print("sleeping 2 sec..")
+                sleep(2)
             
-        except ThreadError as ThreadingError:
-            print(f" {bright}{red}[ + ] Thread Error :{reset} {ThreadingError}")
+        except Exception as InspectorHandlerError:
+            print(f" {bright}{red}[ + ] Thread Error :{reset} {InspectorHandlerError}")
             
         
             

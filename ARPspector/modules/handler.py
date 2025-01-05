@@ -36,6 +36,7 @@ class ArpSpectorHandler():
         
         if self.arguments.interface is not None:
             print("Inspector on duty...")
+            
         else:
             print(f"{bright}{red} [ ERROR ]{reset}: Missing required argumets.")
             print(f" {bright}{blue} Usage :{sys.argv[0]} {reset}-i {red}<interface>{reset} [options]\n {blue} Use --help for more information.{reset}\n")

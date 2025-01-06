@@ -19,18 +19,19 @@ class ArpInspector():
     def sniffer(self):
         try:
             print("inside sniffer")
-            global arp_packet
             while True:
+                global arp_packet
                 packet=sniff(filter="arp",count=1)
                 arp=packet[0]
-                if ARP in arp_packet:
+                if ARP in arp:
                     arp_packet["arp_replay"]={
                         "src_ip":arp.psrc,
                         "src_mac":arp.hwdst,
                         "dst_ip":arp.pdst,
                         "dst_mac":arp.hwdst
                         }
-                    
+                print(arp_packet)
+                   
         except Exception as SnifferError:
             print(f"{bright}{red}[ + ] Error on sniffer: {SnifferError}{reset}")
             

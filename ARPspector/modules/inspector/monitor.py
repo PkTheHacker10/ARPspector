@@ -1,6 +1,5 @@
 from time import sleep
-from scapy.layers.l2 import Ether, ARP
-from scapy.sendrecv import sendp
+from scapy.layers.l2 import ARP
 from scapy.all import sniff
 from threading import Thread,Lock
 from colorama import Fore,Style 
@@ -47,17 +46,21 @@ class ArpInspector():
             sleep(1)
             i=1
             while True:
+                sleep(1)
                 with lock:
-                    packet_count=len(arp_packet)
                     if arp_packet:
-                        print(f"arp pack exist and Length {packet_count}")
-                        # print(f"Packet count: {len(arp_packet)}")
-                        # for arp in arp_packet.values():
-                        #     print(f"Request {i} :{arp}")
-                        #     print("------------------------------------------------------------------------")
-                        # i=i+1
+                        packet_count=len(arp_packet)
+                        print(f"Packet count: {packet_count}")
+                        print(f"ARP packet {i}:{arp_packet[f"arp_replay: {i}"]}")
+                        print("------------------------------------------------------------------------")
+                        try:
+                            del arp_packet[f"arp_replay: {i}"]
+                            print(f"arp_packet [arp_replay: {i}] deleted...")
+                        except Exception as e:
+                            print(f"Delete error: {e}")
+                        i=i+1
                     else:
-                        continue
+                        print("No arp packet captured")
 
             
         except Exception as InspectorHandlerError:

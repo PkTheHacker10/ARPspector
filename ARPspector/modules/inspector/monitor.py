@@ -1,6 +1,8 @@
 from time import sleep
-from scapy.all import *
-from threading import Thread,ThreadError,Lock
+from scapy.layers.l2 import Ether, ARP
+from scapy.sendrecv import sendp
+from scapy.all import sniff
+from threading import Thread,Lock
 from colorama import Fore,Style 
 
 red=Fore.RED
@@ -18,7 +20,6 @@ class ArpInspector():
     
     def sniffer(self):
         try:
-            print("sniffer started")
             global arp_packet
             i=1
             while True:
@@ -39,15 +40,25 @@ class ArpInspector():
             
     def inspector_handler(self):
         try:
+            print("Sniffer started")
             global arp_packet
             sniffer_thread=Thread(target=self.sniffer,args=())
             sniffer_thread.start()
+            sleep(1)
+            i=1
             while True:
-                print(arp_packet)
-                print(f"Length : {len(arp_packet)}")
-                print("------------------------------------------")
-                print("sleeping 0.6 sec..")
-                sleep(0.6)
+                with lock:
+                    packet_count=len(arp_packet)
+                    if arp_packet:
+                        print(f"arp pack exist and Length {packet_count}")
+                        # print(f"Packet count: {len(arp_packet)}")
+                        # for arp in arp_packet.values():
+                        #     print(f"Request {i} :{arp}")
+                        #     print("------------------------------------------------------------------------")
+                        # i=i+1
+                    else:
+                        continue
+
             
         except Exception as InspectorHandlerError:
             print(f" {bright}{red}[ + ] Thread Error :{reset} {InspectorHandlerError}")

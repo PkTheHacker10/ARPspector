@@ -50,12 +50,18 @@ class ArpInspector():
                 with lock:
                     if arp_packet:
                         packet_count=len(arp_packet)
-                        print(f"Packet count: {packet_count}")
-                        print(f"ARP packet {i}:{arp_packet[f"arp_replay: {i}"]}")
-                        print("------------------------------------------------------------------------")
+                        print(f"Total Packet count: {packet_count}")
                         try:
+                            # Alert if the request sip ,smac make 10 request simultaniously to the same dst ip& mac.
+                            print(f"Packet number :{i}")
+                            for key,data in arp_packet[f"arp_replay: {i}"].items():
+                                print(f"{key} :{data}")
+                                
                             del arp_packet[f"arp_replay: {i}"]
                             print(f"arp_packet [arp_replay: {i}] deleted...")
+                            
+                            print("------------------------------------------------------------------------")
+                            #pass
                         except Exception as e:
                             print(f"Delete error: {e}")
                         i=i+1

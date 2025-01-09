@@ -1,4 +1,4 @@
-import platform
+from platform import system
 from time import sleep
 from scapy.layers.l2 import ARP
 from scapy.all import sniff
@@ -17,7 +17,7 @@ arp_packet=dict()
 lock=Lock()
 class ArpInspector():
     
-    def logger(self):
+    def logger(self,logging_data):
         pass
     
     def sniffer(self):
@@ -43,20 +43,26 @@ class ArpInspector():
     def arp_table_inspector(self):
         
         flag=""
-        print(f"Platform : {platform.system()}")
-        if platform.system().lower() == "windows":
+        if system().lower() == "windows":
             flag="-a"
-        elif platform.system().lower() == "linux":
+        elif system().lower() == "linux":
             flag="-n"
-        
         try:
-            result=run(["arp",flag],capture_output=True,text=True)
-            arp_table=result.stdout
-            all_ip=findall(r"((?:\d{1,3}\.){3}\d{1,3})",arp_table)
-            all_mac=findall(r"([0-9a-fA-Z]{2}:[0-9a-fA-Z]{2}:[0-9a-fA-Z]{2}:[0-9a-fA-Z]{2}:[0-9a-fA-Z]{2}:[0-9a-fA-Z]{2})",arp_table)
-            # ip and mac regex
-            ip_mac=dict(zip(all_ip,all_mac))
-            print(ip_mac)
+            spoofed_ip_mac=dict()
+            while True:
+                sleep(3)
+                result=run(["arp",flag],capture_output=True,text=True)
+                arp_table=result.stdout
+                all_ip=findall(r"((?:\d{1,3}\.){3}\d{1,3})",arp_table)
+                all_mac=findall(r"([0-9a-fA-Z]{2}:[0-9a-fA-Z]{2}:[0-9a-fA-Z]{2}:[0-9a-fA-Z]{2}:[0-9a-fA-Z]{2}:[0-9a-fA-Z]{2})",arp_table)
+                # ip and mac regex
+                ip_mac=dict(zip(all_ip,all_mac))
+                for ip,mac in ip_mac.items():
+                    if all_mac.count(mac) > 1:
+                        spoofed_ip_mac[ip]=mac
+                        print(f"{bright}{red}[ + ] Spoofed IP: {ip} MAC: {mac}{reset}")
+                        self.logger(spoofed_ip_mac)
+                        break
                     
         except Exception as ArpTableInspectorError:
             print(f"{bright}{red}[ + ] Error on arp table inspector: {ArpTableInspectorError}{reset}")
@@ -93,7 +99,7 @@ class ArpInspector():
                             print(f"Delete error: {e}")
                         i=i+1
                     else:
-                        print("No arp packet captured")
+                        continue
 
             
         except Exception as InspectorHandlerError:
@@ -103,5 +109,5 @@ class ArpInspector():
             
 if __name__=="__main__":
     ai=ArpInspector()
-    ai.arp_table_inspector()
+    ai.inspector_handler()
     

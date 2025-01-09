@@ -1,7 +1,10 @@
+import platform
 from time import sleep
 from scapy.layers.l2 import ARP
 from scapy.all import sniff
 from threading import Thread,Lock
+from re import findall
+from subprocess import run
 from colorama import Fore,Style 
 
 red=Fore.RED
@@ -37,12 +40,36 @@ class ArpInspector():
         except Exception as SnifferError:
             print(f"{bright}{red}[ + ] Error on sniffer: {SnifferError}{reset}")
             
+    def arp_table_inspector(self):
+        
+        flag=""
+        print(f"Platform : {platform.system()}")
+        if platform.system().lower() == "windows":
+            flag="-a"
+        elif platform.system().lower() == "linux":
+            flag="-n"
+        
+        try:
+            result=run(["arp",flag],capture_output=True,text=True)
+            arp_table=result.stdout
+            all_ip=findall(r"((?:\d{1,3}\.){3}\d{1,3})",arp_table)
+            all_mac=findall(r"([0-9a-fA-Z]{2}:[0-9a-fA-Z]{2}:[0-9a-fA-Z]{2}:[0-9a-fA-Z]{2}:[0-9a-fA-Z]{2}:[0-9a-fA-Z]{2})",arp_table)
+            # ip and mac regex
+            ip_mac=dict(zip(all_ip,all_mac))
+            print(ip_mac)
+                    
+        except Exception as ArpTableInspectorError:
+            print(f"{bright}{red}[ + ] Error on arp table inspector: {ArpTableInspectorError}{reset}")
+            
     def inspector_handler(self):
         try:
-            print("Sniffer started")
             global arp_packet
             sniffer_thread=Thread(target=self.sniffer,args=())
             sniffer_thread.start()
+            print("Sniffer started")
+            arp_table_inspector_thread=Thread(target=self.arp_table_inspector,args=())
+            arp_table_inspector_thread.start()
+            print("Table inspector started")
             sleep(1)
             i=1
             while True:
@@ -76,5 +103,5 @@ class ArpInspector():
             
 if __name__=="__main__":
     ai=ArpInspector()
-    ai.inspector_handler()
+    ai.arp_table_inspector()
     

@@ -15,14 +15,13 @@ reset=Style.RESET_ALL
 
 arp_packet=dict()
 lock=Lock()
-class ArpInspector():
     
-    def logger(self,logging_data):
-        pass
+class ArpInspector():
     
     def sniffer(self):
         try:
             global arp_packet
+            print("Sniffer started")
             i=1
             while True:
                 packet=sniff(filter="arp",count=1)
@@ -42,6 +41,7 @@ class ArpInspector():
             
     def arp_table_inspector(self):
         
+        print("Table inspector started")
         flag=""
         if system().lower() == "windows":
             flag="-a"
@@ -59,10 +59,10 @@ class ArpInspector():
                 ip_mac=dict(zip(all_ip,all_mac))
                 for ip,mac in ip_mac.items():
                     if all_mac.count(mac) > 1:
-                        spoofed_ip_mac[ip]=mac
-                        print(f"{bright}{red}[ + ] Spoofed IP: {ip} MAC: {mac}{reset}")
-                        self.logger(spoofed_ip_mac)
-                        break
+                        for host in range(1,all_mac.count(mac)):
+                            spoofed_ip_mac[ip]=mac
+                if spoofed_ip_mac:
+                    return spoofed_ip_mac
                     
         except Exception as ArpTableInspectorError:
             print(f"{bright}{red}[ + ] Error on arp table inspector: {ArpTableInspectorError}{reset}")
@@ -70,13 +70,6 @@ class ArpInspector():
     def inspector_handler(self):
         try:
             global arp_packet
-            sniffer_thread=Thread(target=self.sniffer,args=())
-            sniffer_thread.start()
-            print("Sniffer started")
-            arp_table_inspector_thread=Thread(target=self.arp_table_inspector,args=())
-            arp_table_inspector_thread.start()
-            print("Table inspector started")
-            sleep(1)
             i=1
             while True:
                 sleep(1)
@@ -94,10 +87,8 @@ class ArpInspector():
                             print(f"arp_packet [arp_replay: {i}] deleted...")
                             
                             print("------------------------------------------------------------------------")
-                            #pass
                         except Exception as e:
                             print(f"Delete error: {e}")
-                        i=i+1
                     else:
                         continue
 
@@ -109,5 +100,5 @@ class ArpInspector():
             
 if __name__=="__main__":
     ai=ArpInspector()
-    ai.inspector_handler()
+    ai.arp_table_inspector()
     

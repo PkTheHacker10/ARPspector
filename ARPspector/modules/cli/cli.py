@@ -20,7 +20,7 @@ reset=Style.RESET_ALL
 
 class commandline():
     # Class for commandline features.
-    def baner():
+    def banner():
         # Function to create and return the banner of the tool.
         name="  ARPspector"
         all_fonts=["graffiti","slant","speed","ogre","Poison","Star Wars","Ghost","Lean","Doom","Varsity","Alligator","Rectangles"]

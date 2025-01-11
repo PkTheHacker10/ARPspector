@@ -20,9 +20,9 @@ except ImportError as Importerror:
     exit(1)
     
 stop_event=Event()
-arp_packet=dict()
     
 class ArpInspector():
+    # Class to handle ARP table inspection.
     def __init__(self):
         self.arguments=commandline.argment_parser()
         try:
@@ -36,6 +36,7 @@ class ArpInspector():
         logging.info("ARPspector started.")
             
     def arp_table_inspector(self):
+        # Function to inspect ARP table.
         try:
             flag=""
             if system().lower() == "windows":
@@ -84,7 +85,7 @@ class ArpInspector():
             exit(1)
             
     def inspector_handler(self):
-        global arp_packet
+        # Function to handle ARP table inspection.
         try:
             arp_table_inspector_thread=Thread(target=self.arp_table_inspector,args=())
             arp_table_inspector_thread.start()

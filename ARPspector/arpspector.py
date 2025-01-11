@@ -7,6 +7,7 @@ white=Fore.WHITE
 reset=Style.RESET_ALL
 
 try:
+    from modules.cli.cli import commandline
     from modules.handler import ArpSpectorHandler
     
 except ImportError as ie:
@@ -14,6 +15,8 @@ except ImportError as ie:
     exit(1)
     
 def main():
+    # Main function to start ARPspector.``
+    print(commandline.banner())
     arpspector_main_handler=ArpSpectorHandler()
     arpspector_main_handler.handler()
 

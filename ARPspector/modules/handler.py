@@ -17,23 +17,23 @@ except ImportError as ie:
 
 
 class ArpSpectorHandler():
+    # Class to handle ARPspector.
     def __init__(self):
         self.stop_event=Event()
         self.inspector=ArpInspector()
         self.arguments=commandline.argment_parser()
                 
     def handler(self):
-        
+        # Function to handle ARPspector.
         if self.arguments.help:
             _help=commandline.help()
             print(_help)
             exit()
         
-        if self.arguments.log_file:
+        if self.arguments.log_file != "../../log/arpspector.log":
             print(f"Log file is set :{self.arguments.log_file}")
         
         try:
-            print(commandline.baner())
             print(f"{bright}{blue}[ + ]{reset}{white} ARPspector started.{reset}")
             print(f"{bright}{blue}[ + ]{reset}{white} Press Ctrl+C to stop.{reset}")
             logging.basicConfig(filename=self.arguments.log_file,level=logging.WARNING)

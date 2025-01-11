@@ -1,10 +1,3 @@
-from platform import system
-from time import sleep
-from scapy.layers.l2 import ARP
-from scapy.all import sniff
-from threading import Thread,Lock
-from re import findall
-from subprocess import run
 from colorama import Fore,Style 
 
 red=Fore.RED
@@ -13,11 +6,29 @@ bright=Style.BRIGHT
 white=Fore.WHITE
 reset=Style.RESET_ALL
 
+try:
+    import logging
+    from platform import system
+    from time import sleep
+    from scapy.layers.l2 import ARP
+    from scapy.all import sniff
+    from threading import Thread,Lock
+    from re import findall
+    from subprocess import run
+    from cli.cli import commandline
+    
+except ImportError as ie:
+    print(f" {bright}{red}[ + ] Import Error :{reset} {ie}")
+    exit(1)
+    
+
 arp_packet=dict()
 lock=Lock()
     
 class ArpInspector():
-    
+    def __init__(self):
+        self.arguments=commandline.argment_parser()
+        
     def sniffer(self):
         try:
             global arp_packet
@@ -63,6 +74,7 @@ class ArpInspector():
                             spoofed_ip_mac[ip]=mac
                 if spoofed_ip_mac:
                     for ip,mac in spoofed_ip_mac.items():
+                        logging.warning(f"Spoofed ip and mac detected :{ip} : {mac}")
                         print(f"{bright}{red}[ + ] Spoofed ip and mac detected :{reset} {ip} : {mac}")
                     spoofed_ip_mac.clear()
                     
@@ -73,6 +85,17 @@ class ArpInspector():
         try:
             global arp_packet
             i=1
+            try:
+                logging.basicConfig(filename=self.arguments.log_file,format='%(asctime)s %(message)s',filemode="a")
+                logger=logging.getLogger()
+                logger.setLevel(logging.DEBUG)
+    
+            except Exception as e:
+                print(f"Exception : {e}")
+                
+            arp_table_inspector_thread=Thread(target=self.arp_table_inspector,args=())
+            arp_table_inspector_thread.start()
+            
             while True:
                 sleep(1)
                 with lock:

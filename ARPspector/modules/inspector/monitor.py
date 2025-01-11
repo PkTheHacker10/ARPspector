@@ -15,8 +15,8 @@ try:
     from subprocess import run
     from cli.cli import commandline
     
-except ImportError as ie:
-    print(f" {bright}{red}[ + ] Import Error :{reset} {ie}")
+except ImportError as Importerror:
+    print(f" {bright}{red}[ + ] Import Error :{reset} {Importerror}")
     exit(1)
     
 stop_event=Event()
@@ -25,6 +25,15 @@ arp_packet=dict()
 class ArpInspector():
     def __init__(self):
         self.arguments=commandline.argment_parser()
+        try:
+            logging.basicConfig(filename=self.arguments.log_file,format='%(asctime)s %(message)s',filemode="a")
+            logger=logging.getLogger()
+            logger.setLevel(logging.DEBUG)
+        except Exception as LoggingError:
+            print(f"{bright}{red}[ + ] Unexpected error on logging configuration: {reset}{LoggingError}")
+            exit(1)
+            
+        logging.info("ARPspector started.")
             
     def arp_table_inspector(self):
         try:
@@ -53,42 +62,35 @@ class ArpInspector():
                     try:
                         for ip,mac in spoofed_ip_mac.items():
                             if logging_counter == 1:
-                                logging.warning(f"Spoofed ip and mac detected :{ip} : {mac}")
+                                logging.warning(f"Spoofing detected [{ip} : {mac}]")
                                 
                             if logging_counter % 10 == 0:
-                                logging.warning(f"Spoofing still running:{ip} : {mac}")
+                                logging.warning(f"Spoofing still running [{ip} : {mac}]")
+                                print(f"{bright}{red}[ + ] Spoofing still running [{logging_counter}]:{reset} {ip} : {mac}")
+                                
+                            if self.arguments.verbose:
+                                print(f"{bright}{red}[ + ] Spoofed ip and mac detected [{logging_counter}]:{reset} {ip} : {mac}")
                             
-                            print(f"{bright}{red}[ + ] Spoofed ip and mac detected [{logging_counter}]:{reset} {ip} : {mac}")
-                            
-                    except KeyboardInterrupt:
-                        print(f"{bright}{red}[ + ] Keyboard Interrupt Detected.{reset}")
+                    except Exception as ArpTableInspectorError:
+                        print(f"{bright}{red}[ + ] Unexpectod error on arp table inspector.spoofed_ip_mac: {ArpTableInspectorError}{reset}")
                         stop_event.set()
                         exit(1)
                                 
                     logging_counter=logging_counter+1
                     spoofed_ip_mac.clear()
                 
-        except Exception as e:
-            print(f"{bright}{red}[ + ] Error on arp table inspector: {e}{reset}")
+        except Exception as ArpTableInspectorError:
+            print(f"{bright}{red}[ + ] Unexpectod error on arp table inspector: {ArpTableInspectorError}{reset}")
             exit(1)
             
     def inspector_handler(self):
+        global arp_packet
         try:
-            global arp_packet
-            try:
-                logging.basicConfig(filename=self.arguments.log_file,format='%(asctime)s %(message)s',filemode="a")
-                logger=logging.getLogger()
-                logger.setLevel(logging.DEBUG)
-    
-            except Exception as e:
-                stop_event.set()
-                print(f"Exception : {e}")
-                
             arp_table_inspector_thread=Thread(target=self.arp_table_inspector,args=())
             arp_table_inspector_thread.start()
             
         except Exception as InspectorHandlerError:
-            print(f" {bright}{red}[ + ] Thread Error :{reset} {InspectorHandlerError}")
+            print(f" {bright}{red}[ + ] Unexpectod error on inspector Thread :{reset} {InspectorHandlerError}")
             
         
             

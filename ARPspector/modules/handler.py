@@ -38,12 +38,12 @@ class ArpSpectorHandler():
         
         if self.arguments.interface is not None:
             print("Inspector on duty...")
-            inspector_handler_thread=Thread(target=self.inspector.inspector_handler(),args=())
-            sniffer_thread=Thread(target=self.inspector.sniffer(),args=())
-            arp_table_inspector_thread=Thread(target=self.arp_table_inspector,args=())
-            sniffer_thread.start()
+            #inspector_handler_thread=Thread(target=self.inspector.inspector_handler(),args=())
+            #sniffer_thread.start()
+            #sniffer_thread=Thread(target=self.inspector.sniffer(),args=())
+            arp_table_inspector_thread=Thread(target=self.inspector.arp_table_inspector,args=())
             arp_table_inspector_thread.start()
-            inspector_handler_thread.start()
+            #inspector_handler_thread.start()
             
             
         else:

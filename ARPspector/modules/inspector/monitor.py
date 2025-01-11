@@ -62,7 +62,9 @@ class ArpInspector():
                         for host in range(1,all_mac.count(mac)):
                             spoofed_ip_mac[ip]=mac
                 if spoofed_ip_mac:
-                    return spoofed_ip_mac
+                    for ip,mac in spoofed_ip_mac.items():
+                        print(f"{bright}{red}[ + ] Spoofed ip and mac detected :{reset} {ip} : {mac}")
+                    spoofed_ip_mac.clear()
                     
         except Exception as ArpTableInspectorError:
             print(f"{bright}{red}[ + ] Error on arp table inspector: {ArpTableInspectorError}{reset}")

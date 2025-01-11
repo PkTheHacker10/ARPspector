@@ -1,4 +1,3 @@
-import sys
 import logging
 from colorama import Fore,Style 
 
@@ -11,13 +10,15 @@ reset=Style.RESET_ALL
 try:
     from cli.cli import commandline
     from inspector.monitor import ArpInspector
-    from threading import Thread
+    from threading import Thread,Event
     
 except ImportError as ie:
     print(f" {bright}{red}[ + ] Import Error :{reset} {ie}")
 
+
 class ArpSpectorHandler():
     def __init__(self):
+        self.stop_event=Event()
         self.inspector=ArpInspector()
         self.arguments=commandline.argment_parser()
                 
@@ -28,17 +29,23 @@ class ArpSpectorHandler():
             print(_help)
             exit()
         
-        if self.arguments.interface is not None:
-            print("Inspector on duty...")
-            inspector_handler_thread=Thread(target=self.inspector.inspector_handler(),args=())
-            #sniffer_thread.start()
-            #sniffer_thread=Thread(target=self.inspector.sniffer(),args=())
-            inspector_handler_thread.start()
-                
-        else:
-            print(f"{bright}{red} [ ERROR ]{reset}: Missing required argumets.")
-            print(f" {bright}{blue} Usage :{sys.argv[0]} {reset}-i {red}<interface>{reset} [options]\n {blue} Use --help for more information.{reset}\n")
-            exit(1)
+        if self.arguments.log_file:
+            print(f"Log file is set :{self.arguments.log_file}")
+        
+        try:
+            print(commandline.baner())
+            print(f"{bright}{blue}[ + ]{reset}{white} ARPspector started.{reset}")
+            print(f"{bright}{blue}[ + ]{reset}{white} Press Ctrl+C to stop.{reset}")
+            logging.basicConfig(filename=self.arguments.log_file,level=logging.WARNING)
+            table_inspector=Thread(target=self.inspector.arp_table_inspector)
+            table_inspector.start()
+            table_inspector.join()
+        
+        except KeyboardInterrupt:
+            print(f"{bright}{red}\n[ + ]{reset}{white} ARPspector stopped.{reset}")
+            self.stop_event.set()
+            table_inspector.join()
+            exit()
 
             
 if __name__=="__main__":

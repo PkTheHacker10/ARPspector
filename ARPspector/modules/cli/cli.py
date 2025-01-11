@@ -35,7 +35,6 @@ class commandline():
         #function to get arguments.
         parser=argparse.ArgumentParser(add_help=False,usage=argparse.SUPPRESS,exit_on_error=False)
         try:
-            parser.add_argument("-i","--interface",type=str)
             parser.add_argument("-l","--log-file",type=str,default="../../log/arpspector.log")
             parser.add_argument("-h","--help",action="store_true")
             args=parser.parse_args()

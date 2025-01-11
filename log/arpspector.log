@@ -1,22 +1,11 @@
-2025-01-04 15:16:42,084 Logging working......
-2025-01-04 15:16:58,602 Logging working......
-2025-01-11 06:16:46,298 Spoofed ip and mac detected :192.168.53.182 : 08:00:27:6e:13:6e
-2025-01-11 06:16:46,298 Spoofed ip and mac detected :192.168.53.30 : 08:00:27:6e:13:6e
-2025-01-11 06:16:49,306 Spoofed ip and mac detected :192.168.53.182 : 08:00:27:6e:13:6e
-2025-01-11 06:16:49,307 Spoofed ip and mac detected :192.168.53.30 : 08:00:27:6e:13:6e
-2025-01-11 06:16:52,314 Spoofed ip and mac detected :192.168.53.182 : 08:00:27:6e:13:6e
-2025-01-11 06:16:52,314 Spoofed ip and mac detected :192.168.53.30 : 08:00:27:6e:13:6e
-2025-01-11 06:16:55,323 Spoofed ip and mac detected :192.168.53.182 : 08:00:27:6e:13:6e
-2025-01-11 06:16:55,323 Spoofed ip and mac detected :192.168.53.30 : 08:00:27:6e:13:6e
-2025-01-11 06:16:58,328 Spoofed ip and mac detected :192.168.53.182 : 08:00:27:6e:13:6e
-2025-01-11 06:16:58,328 Spoofed ip and mac detected :192.168.53.30 : 08:00:27:6e:13:6e
-2025-01-11 06:58:01,133 Spoofed ip and mac detected :192.168.53.182 : 08:00:27:6e:13:6e
-2025-01-11 06:58:01,134 Spoofed ip and mac detected :192.168.53.30 : 08:00:27:6e:13:6e
-2025-01-11 06:58:28,430 Spoofing still running:192.168.53.182 : 08:00:27:6e:13:6e
-2025-01-11 06:58:28,431 Spoofing still running:192.168.53.30 : 08:00:27:6e:13:6e
-2025-01-11 07:05:27,977 Spoofed ip and mac detected :192.168.53.182 : 08:00:27:6e:13:6e
-2025-01-11 07:05:27,978 Spoofed ip and mac detected :192.168.53.30 : 08:00:27:6e:13:6e
-2025-01-11 07:05:55,354 Spoofing still running:192.168.53.182 : 08:00:27:6e:13:6e
-2025-01-11 07:05:55,355 Spoofing still running:192.168.53.30 : 08:00:27:6e:13:6e
-2025-01-11 07:06:25,593 Spoofing still running:192.168.53.182 : 08:00:27:6e:13:6e
-2025-01-11 07:06:25,594 Spoofing still running:192.168.53.30 : 08:00:27:6e:13:6e
+
+2025-01-11 07:30:46,590 Spoofed ip and mac detected :192.168.53.182 : 08:00:27:6e:13:6e
+2025-01-11 07:30:46,590 Spoofed ip and mac detected :192.168.53.30 : 08:00:27:6e:13:6e
+2025-01-11 07:47:10,317 Spoofed ip and mac detected :192.168.53.182 : 08:00:27:6e:13:6e
+2025-01-11 07:47:10,318 Spoofed ip and mac detected :192.168.53.30 : 08:00:27:6e:13:6e
+2025-01-11 07:52:30,391 Spoofed ip and mac detected :192.168.53.182 : 08:00:27:6e:13:6e
+2025-01-11 07:52:30,392 Spoofed ip and mac detected :192.168.53.30 : 08:00:27:6e:13:6e
+WARNING:root:Spoofed ip and mac detected :192.168.53.182 : 08:00:27:6e:13:6e
+WARNING:root:Spoofed ip and mac detected :192.168.53.30 : 08:00:27:6e:13:6e
+WARNING:root:Spoofed ip and mac detected :192.168.53.182 : 08:00:27:6e:13:6e
+WARNING:root:Spoofed ip and mac detected :192.168.53.30 : 08:00:27:6e:13:6e

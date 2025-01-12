@@ -8,12 +8,12 @@ white=Fore.WHITE
 reset=Style.RESET_ALL
 
 try:
-    from cli.cli import commandline
-    from inspector.monitor import ArpInspector
+    from modules.cli.cli import commandline
+    from modules.inspector.monitor import ArpInspector
     from threading import Thread,Event
     
 except ImportError as ie:
-    print(f" {bright}{red}[ + ] Import Error :{reset} {ie}")
+    print(f" {bright}{red}[ + ] [handler] Import Error :{reset} {ie}")
 
 
 class ArpSpectorHandler():
@@ -30,8 +30,8 @@ class ArpSpectorHandler():
             print(_help)
             exit()
         
-        if self.arguments.log_file != "../../log/arpspector.log":
-            print(f"Log file is set :{self.arguments.log_file}")
+        if self.arguments.log_file != "../log/arpspector.log":
+            print(f"{bright}{blue}[ + ]{reset}{white} Log file is set :{self.arguments.log_file}")
         
         try:
             print(f"{bright}{blue}[ + ]{reset}{white} ARPspector started.{reset}")

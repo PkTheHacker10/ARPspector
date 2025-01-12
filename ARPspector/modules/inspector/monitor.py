@@ -13,10 +13,10 @@ try:
     from threading import Thread,Event
     from re import findall
     from subprocess import run
-    from cli.cli import commandline
+    from modules.cli.cli import commandline
     
 except ImportError as Importerror:
-    print(f" {bright}{red}[ + ] Import Error :{reset} {Importerror}")
+    print(f" {bright}{red}[ + ] [monitor] Import Error :{reset} {Importerror}")
     exit(1)
     
 stop_event=Event()
@@ -29,6 +29,7 @@ class ArpInspector():
             logging.basicConfig(filename=self.arguments.log_file,format='%(asctime)s %(message)s',filemode="a")
             logger=logging.getLogger()
             logger.setLevel(logging.DEBUG)
+            
         except Exception as LoggingError:
             print(f"{bright}{red}[ + ] Unexpected error on logging configuration: {reset}{LoggingError}")
             exit(1)
@@ -64,6 +65,7 @@ class ArpInspector():
                         for ip,mac in spoofed_ip_mac.items():
                             if logging_counter == 1:
                                 logging.warning(f"Spoofing detected [{ip} : {mac}]")
+                                print(f"{bright}{red}[ + ] Spoofing ip and mac detected :{reset} [ {ip} : {mac} ]")
                                 
                             if logging_counter % 10 == 0:
                                 logging.warning(f"Spoofing still running [{ip} : {mac}]")

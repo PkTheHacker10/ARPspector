@@ -11,7 +11,7 @@ try:
     from modules.handler import ArpSpectorHandler
     
 except ImportError as ie:
-    print(f" {bright}{red}[ + ] Import Error :{reset} {ie}")
+    print(f" {bright}{red}[ + ] [arpspector] Import Error :{reset} {ie}")
     exit(1)
     
 def main():
@@ -20,3 +20,5 @@ def main():
     arpspector_main_handler=ArpSpectorHandler()
     arpspector_main_handler.handler()
 
+if __name__=="__main__":
+    main()

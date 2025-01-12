@@ -36,7 +36,7 @@ class commandline():
         parser=argparse.ArgumentParser(add_help=False,usage=argparse.SUPPRESS,exit_on_error=False)
         try:
             parser.add_argument("-V","--verbose",action="store_true")
-            parser.add_argument("-l","--log-file",type=str,default="../log/arpspector.log")
+            parser.add_argument("-l","--log-file",type=str,default="/log/arpspector.log")
             parser.add_argument("-h","--help",action="store_true")
             args=parser.parse_args()
             return args
@@ -65,22 +65,20 @@ class commandline():
                 -V,   --verbose                 :  To see the verbose output.
                 -h,   --help                    :  To see all the available options.
           """
-def get_version():
-    #funtion which is used to get the version (tag) from github through api.
-    # TODO remove else after tool become public.
-    try:
-        url="https://api.github.com/repos/PkTheHacker10/ARPspector/releases/latest"
-        response=requests.get(url,timeout=3,verify=True)
-        if response.status_code==200:
-            json_data=response.json()
-            latest=json_data.get('tag_name')
-            return latest
-        else:
-            return "v1.0.0"
-        
-    except (requests.ConnectTimeout,requests.ReadTimeout,requests.Timeout):
-        print(f"{bright}{blue}\n [+] {reset} : Connection TimeOut while getting version.")
-        
-    except requests.JSONDecodeError:
-        print(f"{bright}{red}\n [+] {reset} : Couldn't decode data.")
+    def get_version():
+        #funtion which is used to get the version (tag) from github through api.
+        # TODO remove else after tool become public.
+        try:
+            url="https://api.github.com/repos/PkTheHacker10/ARPspector/releases/latest"
+            response=requests.get(url,timeout=1,verify=True)
+            if response.status_code==200:
+                json_data=response.json()
+                latest=json_data.get('tag_name')
+                return latest
+            
+        except (requests.ConnectTimeout,requests.ReadTimeout,requests.Timeout):
+            print(f"{bright}{blue}\n [+] {reset} : Connection TimeOut while getting version.")
+            
+        except requests.JSONDecodeError:
+            print(f"{bright}{red}\n [+] {reset} : Couldn't decode data.")
         

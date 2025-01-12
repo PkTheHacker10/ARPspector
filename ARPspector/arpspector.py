@@ -4,6 +4,7 @@ red=Fore.RED
 blue=Fore.BLUE
 bright=Style.BRIGHT
 white=Fore.WHITE
+green=Fore.GREEN
 reset=Style.RESET_ALL
 
 try:
@@ -15,8 +16,10 @@ except ImportError as ie:
     exit(1)
     
 def main():
-    # Main function to start ARPspector.``
+    # Main function to start ARPspector.
+    cli=commandline()
     print(commandline.banner())
+    print(f"\n\t ARPspector {green}v{cli.get_version()}{reset} is a tool by PkTheHacker10.")
     arpspector_main_handler=ArpSpectorHandler()
     arpspector_main_handler.handler()
 

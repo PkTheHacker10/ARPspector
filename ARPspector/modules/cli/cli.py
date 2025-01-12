@@ -36,7 +36,7 @@ class commandline():
         parser=argparse.ArgumentParser(add_help=False,usage=argparse.SUPPRESS,exit_on_error=False)
         try:
             parser.add_argument("-V","--verbose",action="store_true")
-            parser.add_argument("-l","--log-file",type=str,default="/log/arpspector.log")
+            parser.add_argument("-l","--log-file",type=str,default="log/arpspector.log")
             parser.add_argument("-h","--help",action="store_true")
             args=parser.parse_args()
             return args
@@ -60,12 +60,12 @@ class commandline():
                     
             {bold}{white}[{reset}{bold}{blue}debug{reset}{bold}{white}]{reset}
             
-                -l,   --log-file                :  To save the network log in a file [ default : /log/arpspector.log] 
+                -l,   --log-file                :  To save the network log in a file [ default : ARPspector/log/arpspector.log] 
                 -v,   --version                 :  To check version of this tool. 
                 -V,   --verbose                 :  To see the verbose output.
                 -h,   --help                    :  To see all the available options.
           """
-    def get_version():
+    def get_version(self):
         #funtion which is used to get the version (tag) from github through api.
         # TODO remove else after tool become public.
         try:

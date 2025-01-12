@@ -48,6 +48,3 @@ class ArpSpectorHandler():
             exit()
 
             
-if __name__=="__main__":
-    spector=ArpSpectorHandler()
-    spector.handler()

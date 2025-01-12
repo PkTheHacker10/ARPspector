@@ -19,9 +19,6 @@ def main():
     # Main function to start ARPspector.
     cli=commandline()
     print(commandline.banner())
-    print(f"\n\t ARPspector {green}v{cli.get_version()}{reset} is a tool by PkTheHacker10.")
+    print(f"\n\t ARPspector {green}{cli.get_version()}{reset} is a tool by PkTheHacker10.\n")
     arpspector_main_handler=ArpSpectorHandler()
     arpspector_main_handler.handler()
-
-if __name__=="__main__":
-    main()

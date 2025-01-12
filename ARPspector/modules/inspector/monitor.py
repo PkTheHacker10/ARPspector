@@ -97,7 +97,5 @@ class ArpInspector():
             
         
             
-if __name__=="__main__":
-    ai=ArpInspector()
-    ai.arp_table_inspector()
+
     

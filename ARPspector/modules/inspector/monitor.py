@@ -13,7 +13,7 @@ try:
     from threading import Thread,Event
     from re import findall
     from subprocess import run
-    from modules.cli.cli import commandline
+    from ARPspector.modules.cli.cli import commandline
     
 except ImportError as Importerror:
     print(f" {bright}{red}[ + ] [monitor] Import Error :{reset} {Importerror}")

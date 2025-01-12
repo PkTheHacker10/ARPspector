@@ -8,8 +8,8 @@ white=Fore.WHITE
 reset=Style.RESET_ALL
 
 try:
-    from modules.cli.cli import commandline
-    from modules.inspector.monitor import ArpInspector
+    from ARPspector.modules.cli.cli import commandline
+    from ARPspector.modules.inspector.monitor import ArpInspector
     from threading import Thread,Event
     
 except ImportError as ie:

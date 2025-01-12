@@ -60,7 +60,7 @@ class commandline():
                     
             {bold}{white}[{reset}{bold}{blue}debug{reset}{bold}{white}]{reset}
             
-                -l,   --log                     :  To save the network log in a file [ default : /log/arpspector.log] 
+                -l,   --log-file                :  To save the network log in a file [ default : /log/arpspector.log] 
                 -v,   --version                 :  To check version of this tool. 
                 -V,   --verbose                 :  To see the verbose output.
                 -h,   --help                    :  To see all the available options.

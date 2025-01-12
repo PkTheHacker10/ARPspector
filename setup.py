@@ -14,7 +14,8 @@ setup(
         'art==6.4',
         'colorama==0.4.6',
         'scapy>=2.6.1',
-        'requests>=2.32.3'
+        'requests>=2.32.3',
+        'logging>=0.4.9.6'
     ],
     entry_points={
         "console_scripts":[

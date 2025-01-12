@@ -7,8 +7,8 @@ white=Fore.WHITE
 reset=Style.RESET_ALL
 
 try:
-    from modules.cli.cli import commandline
-    from modules.handler import ArpSpectorHandler
+    from ARPspector.modules.cli.cli import commandline
+    from ARPspector.modules.handler import ArpSpectorHandler
     
 except ImportError as ie:
     print(f" {bright}{red}[ + ] [arpspector] Import Error :{reset} {ie}")

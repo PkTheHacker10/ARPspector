@@ -7,6 +7,7 @@ white=Fore.WHITE
 reset=Style.RESET_ALL
 
 try:
+    from os import system
     import logging
     from platform import system
     from time import sleep
@@ -26,7 +27,10 @@ class ArpInspector():
     def __init__(self):
         self.arguments=commandline.argment_parser()
         try:
-            logging.basicConfig(filename=self.arguments.log_file,format='%(asctime)s %(message)s',filemode="a")
+            user_name=run(["whoami"],capture_output=True,text=True)
+            system("mkdir /home/"+user_name.stdout.strip()+"/arpspector")
+            LOG_FILE="/home/"+user_name.stdout.strip()+"arpspector"+"/ARPspector.log"
+            logging.basicConfig(filename=LOG_FILE,format='%(asctime)s %(message)s',filemode="a")
             logger=logging.getLogger()
             logger.setLevel(logging.DEBUG)
             
